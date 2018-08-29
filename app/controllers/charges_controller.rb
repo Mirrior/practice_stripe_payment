@@ -5,6 +5,9 @@ class ChargesController < ApplicationController
   def new
   end
 
+  def thanks
+  end
+
   def create
     customer = StripeTool.create_customer(email: params[:stripeEmail],
                                           stripe_token: params[:stripeToken])
@@ -13,9 +16,10 @@ class ChargesController < ApplicationController
                                       amount: @amount,
                                       description: @description)
 
-  rescue Stripe::CardError => e
-    flash[:error] = e.message
-    redirect_to new_charge_path
+    redirect_to thanks_path
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to new_charge_path
   end
 
   private
